@@ -1,6 +1,6 @@
-import Login from './pages/login'
 import './global.css'
+import Router from './router'
 
 export function App() {
-  return <Login />
+  return <Router />
 }

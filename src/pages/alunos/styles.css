@@ -1,0 +1,136 @@
+.aluno-container {
+  width: 100%;
+  max-width: 1200px;
+  padding: 0 24px;
+  margin: 20px auto;
+}
+
+.aluno-container header {
+  display: flex;
+  align-items: center;
+}
+
+.aluno-container header span {
+  font-size: 20px;
+  margin-left: 24px;
+}
+
+.aluno-container header span strong {
+  color: #333;
+}
+
+.aluno-container header a {
+  width: 248px;
+  margin-left: auto;
+  margin-top: 0;
+}
+
+.add-button {
+  margin: 0;
+  padding: 0;
+  max-height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.aluno-container header button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 8px;
+  border: 1px solid #dcdce6;
+  transition: border-color 0.1s;
+}
+
+.aluno-container header button:hover {
+  border-color: #6622ee;
+}
+
+.aluno-container h1 {
+  margin-top: 20px;
+  margin-bottom: 24px;
+}
+.aluno-container ul {
+  display: grid;
+  padding: 0 24px;
+  grid-template-colums: 1fr;
+  grid-gap: 12px;
+  list-style: none;
+}
+
+.aluno-container ul li {
+  background: #fff;
+  padding: 8px;
+  border-radius: 8px;
+  position: relative;
+}
+
+.aluno-container ul li button {
+  /* position: absolute; */
+  right: 24px;
+  top: 24px;
+  border: 0;
+  background: transparent;
+  transition: opacity 0.1s;
+}
+
+.aluno-container ul li button:hover {
+  opacity: 0.8;
+}
+
+.aluno-containser ul li strong {
+  display: block;
+  margin-bottom: 16px;
+  color: #41414d;
+}
+
+.aluno-container ul li p + strong {
+  margin-top: 32px;
+}
+
+.aluno-container ul li p {
+  color: #737380;
+  line-height: 20px;
+  font-size: 16px;
+}
+
+.filter-form {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.filter-form input {
+  margin: 0;
+}
+
+.filter-form button {
+  padding: 0;
+  height: 60px;
+  width: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #dcdce6;
+  border-radius: 8px;
+}
+
+.card-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.action-buttons button {
+  max-width: 32px;
+  max-height: 32px;
+  margin: 0;
+  padding: 0;
+}
