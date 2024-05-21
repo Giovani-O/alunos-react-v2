@@ -14,7 +14,7 @@ export default function Alunos() {
         <span>
           Bem vindo(a) <strong>Gio</strong>
         </span>
-        <Link className="button add-button" to="aluno/novo">
+        <Link className="button add-button" to="/aluno/novo/0">
           Novo aluno
         </Link>
         <button type="button">
