@@ -1,18 +1,14 @@
 import './styles.css'
-import {
-  MagnifyingGlass,
-  Pencil,
-  SignOut,
-  TrashSimple,
-} from '@phosphor-icons/react'
+import { Pencil, SignOut, TrashSimple } from '@phosphor-icons/react'
 import { Link } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
 import { api } from '../../services/api'
 import { useEffect, useState } from 'react'
 
 export default function Alunos() {
-  const [nome, setNome] = useState('')
   const [alunos, setAlunos] = useState([])
+  const [searchInput, setSearchInput] = useState('')
+  const [filtro, setFiltro] = useState([])
 
   const email = localStorage.getItem('@alunos-react:email')
   const token = localStorage.getItem('@alunos-react:token')
@@ -50,6 +46,33 @@ export default function Alunos() {
     }
   }
 
+  function searchAlunos(searchValue) {
+    setSearchInput(searchValue)
+
+    if (searchInput !== '') {
+      const dadosFiltrados = alunos.filter((item) => {
+        return Object.values(item)
+          .join('')
+          .toLowerCase()
+          .includes(searchInput.toLocaleLowerCase())
+      })
+      setFiltro(dadosFiltrados)
+    } else {
+      setFiltro(alunos)
+    }
+  }
+
+  async function deleteAluno(id) {
+    try {
+      if (window.confirm('Deseja excluir o aluno de id = ' + id + '?')) {
+        await api.delete(`/api/alunos/${id}`, authorization)
+        setAlunos(alunos.filter((aluno) => aluno.id !== id))
+      }
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
   return (
     <div className="aluno-container">
       <header>
@@ -65,66 +88,82 @@ export default function Alunos() {
       </header>
 
       <form className="filter-form">
-        <input type="text" placeholder="Nome" />
-        <button>
-          <MagnifyingGlass size={32} />
-        </button>
+        <input
+          type="text"
+          placeholder="Buscar por nome..."
+          onChange={(e) => searchAlunos(e.target.value)}
+        />
       </form>
       <h1>Alunos</h1>
-      <ul>
-        {alunos.map((aluno) => {
-          return (
-            <li key={aluno.id}>
-              <div className="card-content">
-                <div className="card-info">
-                  <b>Nome: </b>
-                  {aluno.nome}
-                  <br />
-                  <b>Email: </b>
-                  {aluno.email}
-                  <br />
-                  <b>Idade: </b>
-                  {aluno.idade}
-                  <br />
+      {searchInput.length > 1 ? (
+        <ul>
+          {filtro.map((aluno) => {
+            return (
+              <li key={aluno.id}>
+                <div className="card-content">
+                  <div className="card-info">
+                    <b>Nome: </b>
+                    {aluno.nome}
+                    <br />
+                    <b>Email: </b>
+                    {aluno.email}
+                    <br />
+                    <b>Idade: </b>
+                    {aluno.idade}
+                    <br />
+                  </div>
+                  <div className="action-buttons">
+                    <button type="button">
+                      <Pencil
+                        size={32}
+                        color="#17202a"
+                        onClick={() => editAluno(aluno.id)}
+                      />
+                    </button>
+                    <button type="button">
+                      <TrashSimple size={32} color="#17202a" />
+                    </button>
+                  </div>
                 </div>
-                <div className="action-buttons">
-                  <button type="button">
-                    <Pencil
-                      size={32}
-                      color="#17202a"
-                      onClick={() => editAluno(aluno.id)}
-                    />
-                  </button>
-                  <button type="button">
-                    <TrashSimple size={32} color="#17202a" />
-                  </button>
+              </li>
+            )
+          })}
+        </ul>
+      ) : (
+        <ul>
+          {alunos.map((aluno) => {
+            return (
+              <li key={aluno.id}>
+                <div className="card-content">
+                  <div className="card-info">
+                    <b>Nome: </b>
+                    {aluno.nome}
+                    <br />
+                    <b>Email: </b>
+                    {aluno.email}
+                    <br />
+                    <b>Idade: </b>
+                    {aluno.idade}
+                    <br />
+                  </div>
+                  <div className="action-buttons">
+                    <button type="button">
+                      <Pencil
+                        size={32}
+                        color="#17202a"
+                        onClick={() => editAluno(aluno.id)}
+                      />
+                    </button>
+                    <button type="button" onClick={() => deleteAluno(aluno.id)}>
+                      <TrashSimple size={32} color="#17202a" />
+                    </button>
+                  </div>
                 </div>
-              </div>
-            </li>
-          )
-        })}
-
-        {/* <li>
-          <div className="card-content">
-            <div className="card-info">
-              <b>Nome: </b>Gio
-              <br />
-              <b>Email: </b>gio@mail.com
-              <br />
-              <b>Idade: </b>25
-              <br />
-            </div>
-            <div className="action-buttons">
-              <button type="button">
-                <Pencil size={32} color="#17202a" />
-              </button>
-              <button type="button">
-                <TrashSimple size={32} color="#17202a" />
-              </button>
-            </div>
-          </div>
-        </li> */}
-      </ul>
+              </li>
+            )
+          })}
+        </ul>
+      )}
     </div>
   )
 }
