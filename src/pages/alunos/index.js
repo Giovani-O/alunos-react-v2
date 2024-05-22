@@ -42,6 +42,14 @@ export default function Alunos() {
 
   const navigate = useNavigate()
 
+  async function editAluno(id) {
+    try {
+      navigate(`/aluno/novo/${id}`)
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
   return (
     <div className="aluno-container">
       <header>
@@ -81,7 +89,11 @@ export default function Alunos() {
                 </div>
                 <div className="action-buttons">
                   <button type="button">
-                    <Pencil size={32} color="#17202a" />
+                    <Pencil
+                      size={32}
+                      color="#17202a"
+                      onClick={() => editAluno(aluno.id)}
+                    />
                   </button>
                   <button type="button">
                     <TrashSimple size={32} color="#17202a" />
